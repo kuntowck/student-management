@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Entitites;
+namespace App\Entities;
 
 class Mahasiswa
 {
-    private $nim, $nama, $jurusan;
+    private $nim;
+    private $nama;
+    private $jurusan;
 
     public function __construct($nim, $nama, $jurusan)
     {
@@ -26,10 +28,5 @@ class Mahasiswa
     public function getJurusan()
     {
         return $this->jurusan;
-    }
-
-    public function getFullInfo()
-    {
-        return "NIM: {$this->nim}, Nama: {$this->nama}, Jurusan: {$this->jurusan}";
     }
 }
