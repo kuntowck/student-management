@@ -44,7 +44,7 @@ class M_Mahasiswa
                 $student = $mahasiswa;
                 return true;
             }
-        }
+        }   
         return false;
     }
 

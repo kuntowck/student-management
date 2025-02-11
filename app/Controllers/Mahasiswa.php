@@ -32,36 +32,35 @@ class Mahasiswa extends BaseController
 
     public function create()
     {
-        if ($this->request->getMethod() === 'post') {
-            $nim = $this->request->getPost('nim');
-            $nama = $this->request->getPost('nama');
-            $jurusan = $this->request->getPost('jurusan');
-
-            $mahasiswa = new MahasiswaEntity($nim, $nama, $jurusan);
-            $this->mahasiswaModel->addStudent($mahasiswa);
-
-            return redirect()->to('/mahasiswa');
-        }
-
         return view('mahasiswa/create');
+    }
+
+    public function store()
+    {
+        $nim = $this->request->getPost('nim');
+        $nama = $this->request->getPost('nama');
+        $jurusan = $this->request->getPost('jurusan');
+
+        $mahasiswa = new MahasiswaEntity($nim, $nama, $jurusan);
+        $this->mahasiswaModel->addStudent($mahasiswa);
+
+        return redirect()->to('/mahasiswa');
     }
 
     public function update($nim)
     {
+        $nama = $this->request->getPost('nama');
+        $jurusan = $this->request->getPost('jurusan');
+
+        $updatedStudent = new MahasiswaEntity($nim, $nama, $jurusan);
+        $this->mahasiswaModel->updateStudent($updatedStudent);
+
+        return redirect()->to('/mahasiswa');
+    }
+
+    public function edit($nim)
+    {
         $student = $this->mahasiswaModel->getStudentByNIM($nim);
-        if (!$student) {
-            return redirect()->to('/mahasiswa');
-        }
-
-        if ($this->request->getMethod() === 'post') {
-            $nama = $this->request->getPost('nama');
-            $jurusan = $this->request->getPost('jurusan');
-
-            $updatedStudent = new MahasiswaEntity($nim, $nama, $jurusan);
-            $this->mahasiswaModel->updateStudent($updatedStudent);
-
-            return redirect()->to('/mahasiswa');
-        }
 
         return view('mahasiswa/update', ['student' => $student]);
     }

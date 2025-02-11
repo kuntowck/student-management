@@ -1,4 +1,3 @@
-/7-solecode/fullstack-ci/project-root/app/Views/mahasiswa/update.php
 <!DOCTYPE html>
 <html>
 
