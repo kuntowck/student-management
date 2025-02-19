@@ -11,8 +11,9 @@ class M_Mahasiswa
     public function __construct()
     {
         $this->students = [
-            new Mahasiswa("1", "Kunto", "Informatika"),
-            new Mahasiswa("2", "Wicaksono", "Informatika"),
+            new Mahasiswa(['nim' => '1', 'nama' => 'kunto', 'jurusan' => 'informatika', 'semester' => 7, 'ipk' => 3.50]),
+            new Mahasiswa(['nim' => '2', 'nama' => 'sultan', 'jurusan' => 'informatika', 'semester' => 7, 'ipk' => 3.40]),
+
         ];
     }
 
@@ -24,7 +25,7 @@ class M_Mahasiswa
     public function getStudentByNIM($nim)
     {
         foreach ($this->students as $student) {
-            if ($student->getNim() === $nim) {
+            if ($student->nim === $nim) {
                 return $student;
             }
         }
@@ -40,18 +41,18 @@ class M_Mahasiswa
     public function updateStudent(Mahasiswa $mahasiswa)
     {
         foreach ($this->students as &$student) {
-            if ($student->getNim() === $mahasiswa->getNim()) {
+            if ($student->nim === $mahasiswa->nim) {
                 $student = $mahasiswa;
                 return true;
             }
-        }   
+        }
         return false;
     }
 
     public function deleteStudent($nim)
     {
         foreach ($this->students as $key => $student) {
-            if ($student->getNim() === $nim) {
+            if ($student->nim === $nim) {
                 unset($this->students[$key]);
                 return true;
             }

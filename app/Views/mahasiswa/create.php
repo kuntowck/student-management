@@ -14,6 +14,10 @@
         <input type="text" id="nama" name="nama" required><br>
         <label for="jurusan">Jurusan:</label>
         <input type="text" id="jurusan" name="jurusan" required><br>
+        <label for="semester">Semester:</label>
+        <input type="text" id="semester" name="semester" required><br>
+        <label for="ipk">IPK:</label>
+        <input type="text" id="ipk" name="ipk" required><br>
         <button type="submit">Tambah</button>
     </form>
     <a href="/mahasiswa">Kembali ke Daftar Mahasiswa</a>

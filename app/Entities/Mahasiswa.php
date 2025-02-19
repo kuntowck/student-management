@@ -4,29 +4,29 @@ namespace App\Entities;
 
 class Mahasiswa
 {
-    private $nim;
-    private $nama;
-    private $jurusan;
+    private $nim, $nama, $jurusan, $semester, $ipk;
 
-    public function __construct($nim, $nama, $jurusan)
+
+    public function __construct(array $data)
     {
-        $this->nim = $nim;
-        $this->nama = $nama;
-        $this->jurusan = $jurusan;
+        $this->nim = $data['nim'] ?? '';
+        $this->nama = $data['nama'] ?? '';
+        $this->jurusan = $data['jurusan'] ?? '';
+        $this->semester = $data['semester'] ?? '';
+        $this->ipk = $data['ipk'] ?? '';
     }
 
-    public function getNim()
+    public function __get($property)
     {
-        return $this->nim;
+        if (property_exists($this, $property)) {
+            return $this->$property;
+        }
     }
 
-    public function getNama()
+    public function __set($property, $value)
     {
-        return $this->nama;
-    }
-
-    public function getJurusan()
-    {
-        return $this->jurusan;
+        if (property_exists($this, $property)) {
+            $this->$property = $value;
+        }
     }
 }
