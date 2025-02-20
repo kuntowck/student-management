@@ -18,12 +18,15 @@ class Mahasiswa extends BaseController
     {
         $students = $this->mahasiswaModel->getAllStudents();
 
+
         return view('mahasiswa/index', ['students' => $students]);
     }
 
     public function detail($nim)
     {
         $student = $this->mahasiswaModel->getStudentByNIM($nim);
+
+        return view('mahasiswa/detail', ['student' => $student]);
 
         return view('mahasiswa/detail', ['student' => $student]);
     }
@@ -43,7 +46,7 @@ class Mahasiswa extends BaseController
         return redirect()->to('/mahasiswa');
     }
 
-    public function update($nim)
+    public function update()
     {
         $dataStudent = $this->request->getPost();
 

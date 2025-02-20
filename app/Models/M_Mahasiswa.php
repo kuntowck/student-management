@@ -80,8 +80,10 @@ class M_Mahasiswa
     {
         foreach ($this->students as &$student) {
             if ($student->nim === $mahasiswa->nim) {
-                $student = $mahasiswa;
-                return true;
+                if ($student->nim === $mahasiswa->nim) {
+                    $student = $mahasiswa;
+                    return true;
+                }
             }
         }
         return false;

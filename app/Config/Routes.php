@@ -11,6 +11,7 @@ $routes->get('/', 'Home::index');
 
 $routes->get('/mahasiswa', [Mahasiswa::class, 'index']);
 $routes->get('/mahasiswa/detail/(:num)', [Mahasiswa::class, 'detail/$1']);
+$routes->get('/mahasiswa/detail/(:num)', [Mahasiswa::class, 'detail/$1']);
 $routes->get('/mahasiswa/create', [Mahasiswa::class, 'create']);
 $routes->post('/mahasiswa/create', [Mahasiswa::class, 'store']);
 $routes->get('/mahasiswa/update/(:num)', [Mahasiswa::class, 'edit/$1']);

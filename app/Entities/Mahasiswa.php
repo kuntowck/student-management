@@ -22,6 +22,9 @@ class Mahasiswa
         if (property_exists($this, $property)) {
             return $this->$property;
         }
+        if (property_exists($this, $property)) {
+            return $this->$property;
+        }
     }
 
     public function __set($property, $value)
