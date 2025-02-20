@@ -1,1 +1,1 @@
-<span><?= join(", ", $latestGrades) ?>,</span>
+<span><?= join(", ", $latestGrades) ?></span>

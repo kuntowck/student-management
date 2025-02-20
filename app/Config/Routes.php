@@ -22,4 +22,4 @@ $routes->get('student', 'Students::index');
 $routes->get('student/profile/(:num)', 'Students::profile/$1');
 
 $routes->get('academic', 'Academic::index');
-$routes->get('academic/statistic', 'Academic::index');
+$routes->get('academic/statistic', 'Academic::statistic');

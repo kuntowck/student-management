@@ -8,16 +8,22 @@
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
 </head>
 
-<body>
+<body class="flex flex-col min-h-screen">
     <?= $this->include('partials/header'); ?>
 
-    <main>
-        <?= $this->renderSection('content'); ?>
+    <main class="flex-grow container mx-auto p-4 flex">
+        <aside class="w-1/4 p-4">
+            <?= $this->include('partials/sidebar'); ?>
+        </aside>
+        <section class="w-3/4 p-4">
+            <?= $this->renderSection('content'); ?>
+        </section>
     </main>
 
     <?= $this->include('partials/footer'); ?>
 
-    <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js">
+    </script>
 </body>
 
 </html>

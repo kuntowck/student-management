@@ -1,5 +1,6 @@
 <div class="max-w-screen-xl mx-auto p-4">
-    <div class="bg-white shadow-md rounded-md p-6">
+    <div class="bg-white shadow-sm rounded-md p-6">
+        <h1 class="text-2xl font-bold mb-4">{title}</h1>
         {student}
         <div class="mb-4">
             <p class="text-lg font-semibold">Nama: {nama}</p>

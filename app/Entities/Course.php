@@ -2,19 +2,14 @@
 
 namespace App\Entities;
 
-class Mahasiswa
+class Course
 {
-    private $nim, $nama, $jurusan, $status, $semester, $ipk;
-
+    private $kode, $nama;
 
     public function __construct(array $data)
     {
-        $this->nim = $data['nim'] ?? '';
+        $this->kode = $data['kode'] ?? '';
         $this->nama = $data['nama'] ?? '';
-        $this->jurusan = $data['jurusan'] ?? '';
-        $this->status = $data['status'] ?? '';
-        $this->semester = $data['semester'] ?? '';
-        $this->ipk = $data['ipk'] ?? '';
     }
 
     public function __get($property)
