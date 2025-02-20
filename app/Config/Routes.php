@@ -16,3 +16,9 @@ $routes->post('/mahasiswa/create', [Mahasiswa::class, 'store']);
 $routes->get('/mahasiswa/update/(:num)', [Mahasiswa::class, 'edit/$1']);
 $routes->put('/mahasiswa/update/(:num)', [Mahasiswa::class, 'update']);
 $routes->delete('/mahasiswa/delete/(:num)', [Mahasiswa::class, 'delete/$1']);
+
+$routes->get('student', 'Students::index');
+$routes->get('student/profile/(:num)', 'Students::profile/$1');
+
+$routes->get('academic', 'Academic::index');
+$routes->get('academic/statistic', 'Academic::index');

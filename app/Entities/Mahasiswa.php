@@ -4,7 +4,7 @@ namespace App\Entities;
 
 class Mahasiswa
 {
-    private $nim, $nama, $jurusan, $semester, $ipk;
+    private $nim, $nama, $jurusan, $status, $semester, $ipk;
 
 
     public function __construct(array $data)
@@ -12,6 +12,7 @@ class Mahasiswa
         $this->nim = $data['nim'] ?? '';
         $this->nama = $data['nama'] ?? '';
         $this->jurusan = $data['jurusan'] ?? '';
+        $this->status = $data['status'] ?? '';
         $this->semester = $data['semester'] ?? '';
         $this->ipk = $data['ipk'] ?? '';
     }
