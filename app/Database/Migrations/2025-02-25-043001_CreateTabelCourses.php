@@ -11,34 +11,35 @@ class CreateTabelCourses extends Migration
         $this->forge->addField([
             'id' => [
                 'type' => 'INT',
-                'constraint' => 5,
+                'constraint' => 11,
+                'unsigned' => true,
                 'auto_increment' => true
             ],
             'code' => [
                 'type' => 'INT',
-                'constraint' => 5,
+                'constraint' => 11,
             ],
             'name' => [
                 'type' => 'VARCHAR',
-                'constraint' => '255',
-                'null' => true
+                'constraint' => 100,
+                'null' => false
             ],
             'credits' => [
                 'type' => 'INT',
                 'constraint' => 11,
-                'null' => true
+                'null' => false
             ],
             'semester' => [
                 'type' => 'INT',
-                'constraint' => 11,
-                'null' => true
+                'constraint' => 2,
+                'null' => false
             ],
             'created_at' => [
-                'type' => 'DATETIME',
+                'type' => 'TIMESTAMP',
                 'null' => true
             ],
             'updated_at' => [
-                'type' => 'DATETIME',
+                'type' => 'TIMESTAMP',
                 'null' => true
             ]
         ]);

@@ -1,64 +1,70 @@
 <?php
-
 namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class CreateTabelStudent extends Migration
+class CreateStudentsTable extends Migration
 {
     public function up()
     {
         $this->forge->addField([
             'id' => [
                 'type' => 'INT',
-                'constraint' => 5,
-                'auto_increment' => true
+                'constraint' => 11,
+                'unsigned' => true,
+                'auto_increment' => true,
             ],
             'student_id' => [
-                'type' => 'INT',
-                'constraint' => 5,
+                'type' => 'VARCHAR',
+                'constraint' => 20,
+                'unique' => true,
+                'null' => false,
             ],
             'name' => [
                 'type' => 'VARCHAR',
-                'null' => true,
+                'constraint' => 100,
+                'null' => false,
             ],
             'study_program' => [
                 'type' => 'VARCHAR',
-                'null' => true,
+                'constraint' => 100,
+                'null' => false,
             ],
             'current_semester' => [
                 'type' => 'INT',
-                'null' => true,
+                'constraint' => 2,
+                'null' => false,
             ],
             'academic_status' => [
                 'type' => 'VARCHAR',
-                'null' => true,
+                'constraint' => 50,
+                'null' => false,
             ],
             'entry_year' => [
-                'type' => 'INT',
-                'null' => true,
+                'type' => 'YEAR',
+                'null' => false,
             ],
             'gpa' => [
                 'type' => 'DECIMAL',
+                'constraint' => '3,2',
                 'null' => true,
             ],
             'created_at' => [
-                'type' => 'DATETIME',
-                'null' => true,
+                'type' => 'TIMESTAMP',
+                'null' => true
             ],
             'updated_at' => [
-                'type' => 'DATETIME',
-                'null' => true,
-            ]
+                'type' => 'TIMESTAMP',
+                'null' => true
+            ],
         ]);
 
-        $this->forge->addKey('id', true);
-        $this->forge->addUniqueKey('student_id', 'studentId');
-        $this->forge->createTable('student');
+        $this->forge->addPrimaryKey('id');
+        $this->forge->createTable('students');
     }
 
     public function down()
     {
-        //
+        $this->forge->dropTable('students');
     }
 }
