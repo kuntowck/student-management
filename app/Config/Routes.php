@@ -8,7 +8,7 @@ use App\Controllers\Students;
 /**
  * @var RouteCollection $routes
  */
-$routes->get('/', 'Home::index');
+$routes->get('/', 'Students::index');
 
 $routes->get('/mahasiswa', [Mahasiswa::class, 'index']);
 $routes->get('/mahasiswa/detail/(:num)', [Mahasiswa::class, 'detail/$1']);

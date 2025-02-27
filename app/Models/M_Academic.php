@@ -2,35 +2,33 @@
 
 namespace App\Models;
 
-use App\Entities\Course;
-
-class M_Course
+class M_Academic
 {
     private $courses = [];
 
     public function __construct()
     {
         $this->courses = [
-            new Course([
+            [
                 'kode' => 'CS101',
                 'nama' => 'Introduction to Computer Science'
-            ]),
-            new Course([
+            ],
+            [
                 'kode' => 'CS102',
                 'nama' => 'Data Structures',
-            ]),
-            new Course([
+            ],
+            [
                 'kode' => 'CS103',
                 'nama' => 'Algorithms',
-            ]),
-            new Course([
+            ],
+            [
                 'kode' => 'CS104',
                 'nama' => 'Operating Systems',
-            ]),
-            new Course([
+            ],
+            [
                 'kode' => 'CS105',
                 'nama' => 'Database Systems',
-            ]),
+            ],
         ];
     }
 
@@ -40,8 +38,8 @@ class M_Course
 
         foreach ($this->courses as $course) {
             $courses[] = [
-                'kode' => $course->kode,
-                'nama' => $course->nama
+                'kode' => $course['kode'],
+                'nama' => $course['nama']
             ];
         }
 

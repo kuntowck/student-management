@@ -3,22 +3,22 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
-use App\Models\M_Course;
+use App\Models\M_Academic;
 use App\Models\M_Mahasiswa;
 
 class Academic extends BaseController
 {
-    private $courseModel, $mahasiswaModel;
+    private $academicModel, $mahasiswaModel;
 
     public function __construct()
     {
-        $this->courseModel = new M_Course();
+        $this->academicModel = new M_Academic();
         $this->mahasiswaModel = new M_Mahasiswa();
     }
 
     public function index()
     {
-        $courses = $this->courseModel->getAllCoursesArray();
+        $courses = $this->academicModel->getAllCoursesArray();
 
         $data = [
             'title' => 'Course List',
@@ -31,7 +31,7 @@ class Academic extends BaseController
     public function statistic()
     {
         $students = count($this->mahasiswaModel->getAllStudentsArray());
-        $courses = count($this->courseModel->getAllCoursesArray());
+        $courses = count($this->academicModel->getAllCoursesArray());
 
         $data = [
             'title' => 'Academic Statistics',
