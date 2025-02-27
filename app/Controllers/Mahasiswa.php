@@ -27,8 +27,6 @@ class Mahasiswa extends BaseController
         $student = $this->mahasiswaModel->getStudentByNIM($nim);
 
         return view('mahasiswa/detail', ['student' => $student]);
-
-        return view('mahasiswa/detail', ['student' => $student]);
     }
 
     public function create()

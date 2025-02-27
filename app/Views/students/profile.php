@@ -3,9 +3,10 @@
         <h1 class="text-2xl font-bold mb-4">{title}</h1>
         {student}
         <div class="mb-4">
-            <p class="text-lg font-semibold">Nama: {nama}</p>
-            <p class="text-lg font-semibold">Jurusan: {jurusan}</p>
-            <p class="text-lg font-semibold">Status: Semester {semester} {!status_cell!}</p>
+            <p class="text-lg font-semibold">Name: {name}</p>
+            <p class="text-lg font-semibold">Study Program: {study_program}</p>
+            <p class="text-lg font-semibold">Entry Year: {entry_year}</p>
+            <p class="text-lg font-semibold">Status: Semester {current_semester} {!status_cell!}</p>
         </div>
         {/student}
         <div>
