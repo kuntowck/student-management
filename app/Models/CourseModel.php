@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Libraries\DataParams;
 use CodeIgniter\Model;
 
 class CourseModel extends Model
@@ -12,7 +13,7 @@ class CourseModel extends Model
     protected $returnType       = \App\Entities\Course::class;
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['code', 'name', 'credits', 'semester'];
+    protected $allowedFields    = ['id', 'code', 'name', 'credits', 'semester'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
@@ -82,5 +83,59 @@ class CourseModel extends Model
         $course = $this->find($id);
 
         return $course->toArray();
+    }
+
+    public function getFilteredCourses(DataParams $params)
+    {
+        // Apply search
+        if (!empty($params->search)) {
+            $this->groupStart()
+                ->Like('name', $params->search, 'both', null, true);
+
+            if (is_numeric($params->search)) {
+                $this->orWhere('CAST (code AS TEXT) LIKE', "%$params->search%")
+                    ->orWhere('CAST (credits AS TEXT) LIKE', "%$params->search%")
+                    ->orWhere('CAST (semester AS TEXT) LIKE', "%$params->search%");
+            }
+            $this->groupEnd();
+        }
+
+        // Apply credits filter
+        if (!empty($params->credits)) {
+            $this->where('credits', $params->credits);
+        }
+
+        // Apply semester filter
+        if (!empty($params->semester)) {
+            $this->where('semester', $params->semester);
+        }
+
+        // Apply sort
+        $allowedSortColumns = ['id', 'code', 'name', 'credits', 'semester'];
+        $sort = in_array($params->sort, $allowedSortColumns) ? $params->sort : 'id';
+        $order = ($params->order === 'desc') ? 'desc' : 'asc';
+
+        $this->orderBy($sort, $order);
+
+        $result = [
+            'courses' => $this->paginate($params->perPage, 'courses', $params->page),
+            'pager' => $this->pager,
+            'total' => $this->countAllResults(false)
+        ];
+        return $result;
+    }
+
+    public function getAllCredits()
+    {
+        $credits = $this->select('credits')->distinct()->findAll();
+
+        return array_column($credits, 'credits');
+    }
+
+    public function getAllSemesters()
+    {
+        $semesters = $this->select('semester')->distinct()->findAll();
+
+        return array_column($semesters, 'semester');
     }
 }

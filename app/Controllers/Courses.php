@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Libraries\DataParams;
 use App\Models\CourseModel;
 
 class Courses extends BaseController
@@ -16,14 +17,36 @@ class Courses extends BaseController
 
     public function index()
     {
-        $data['courses'] = $this->courseModel->getAllCoursesArray();
+        $params = new DataParams([
+            'search' => $this->request->getGet('search'),
+            'sort' => $this->request->getGet('sort'),
+            'order' => $this->request->getGet('order'),
+            'page' => $this->request->getGet('page_credits'),
+            'perPage' => $this->request->getGet('perPage'),
+            'credits' => $this->request->getGet('credits'),
+            'semester' => $this->request->getGet('semester'),
+        ]);
+
+        $results = $this->courseModel->getFilteredCourses($params);
+
+        $data = [
+            'title' => 'Course List',
+            'params' => $params,
+            'courses' => $results['courses'],
+            'pager' => $results['pager'],
+            'total' => $results['total'],
+            'credits' => $this->courseModel->getAllCredits(),
+            'semesters' => $this->courseModel->getAllSemesters(),
+            'baseURL' => base_url('course'),
+        ];
 
         return view('courses/course_list', $data);
     }
-    
-    public function detail($id){
+
+    public function detail($id)
+    {
         $data['course'] = $this->courseModel->getCourseArrayByID($id);
-        
+
         return view('courses/detail', $data);
     }
 
@@ -36,11 +59,9 @@ class Courses extends BaseController
     {
         $data = $this->request->getPost();
 
-        if (!$this->courseModel->validate($data)) {
+        if (!$this->courseModel->save($data)) {
             return redirect()->back()->withInput()->with('errors', $this->courseModel->errors());
         }
-
-        $this->courseModel->save($data);
 
         return redirect()->to('/course');
     }
@@ -56,7 +77,7 @@ class Courses extends BaseController
     {
         $data = $this->request->getPost();
 
-        if (!$this->courseModel->validate($data)) {
+        if (!$this->courseModel->update($id, $data)) {
             return redirect()->back()->withInput()->with('errors', $this->courseModel->errors());
         }
 
