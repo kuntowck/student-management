@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Libraries\DataParams;
 use App\Models\StudentModel;
 
 class Students extends BaseController
@@ -19,20 +20,87 @@ class Students extends BaseController
     {
         $parser = service('parser');
 
-        $students = $this->studentModel->getAllStudentsArray();
+        $params = new DataParams([
+            'search' => $this->request->getGet('search'),
+            'studyProgram' => $this->request->getGet('studyProgram'),
+            'status' => $this->request->getGet('status'),
+            'entryYear' => $this->request->getGet('entryYear'),
+            'sort' => $this->request->getGet('sort'),
+            'order' => $this->request->getGet('order'),
+            'page' => $this->request->getGet('page_students'),
+            'perPage' => $this->request->getGet('perPage')
+        ]);
 
-        foreach ($students as &$student) {
+        $results = $this->studentModel->asArray()->getFilteredStudents($params);
+
+        foreach ($results['students'] as &$student) {
             $student['status_cell'] = view_cell('AcademicStatusCell', ['status' => $student['academic_status']]);
+            $student['grades_cell'] = view_cell('LatestGradesCell', ['grades' => [90, 80, 90, 70, 70]], 21600, 'grades_cell');
         }
+
+        $dataParser = [
+            'students' => $results['students'],
+            'tableHeader' => [
+                [
+                    'name' => 'NIM',
+                    'href' => $params->getSortUrl('student_id', base_url('student')),
+                    'is_sorted' => $params->isSortedBy('student_id') ? ($params->getSortDirection() == 'asc' ?
+                        '↑' : '↓') : ''
+                ],
+                [
+                    'name' => 'Name',
+                    'href' => $params->getSortUrl('name', base_url('student')),
+                    'is_sorted' => $params->isSortedBy('name') ? ($params->getSortDirection() == 'asc' ?
+                        '↑' : '↓') : ''
+                ],
+                [
+                    'name' => 'Study Program',
+                    'href' => $params->getSortUrl('study_program', base_url('student')),
+                    'is_sorted' => $params->isSortedBy('study_program') ? ($params->getSortDirection() == 'asc' ?
+                        '↑' : '↓') : ''
+                ],
+                [
+                    'name' => 'Current Semester',
+                    'href' => $params->getSortUrl('current_semester', base_url('student')),
+                    'is_sorted' => $params->isSortedBy('current_semester') ? ($params->getSortDirection() == 'asc' ?
+                        '↑' : '↓') : ''
+                ],
+                [
+                    'name' => 'Entry Year',
+                    'href' => $params->getSortUrl('entry_year', base_url('student')),
+                    'is_sorted' => $params->isSortedBy('entry_year') ? ($params->getSortDirection() == 'asc' ?
+                        '↑' : '↓') : ''
+                ],
+                [
+                    'name' => 'GPA',
+                    'href' => $params->getSortUrl('gpa', base_url('student')),
+                    'is_sorted' => $params->isSortedBy('gpa') ? ($params->getSortDirection() == 'asc' ?
+                        '↑' : '↓') : ''
+                ],
+                [
+                    'name' => 'Status',
+                    'href' => $params->getSortUrl('academic_status', base_url('student')),
+                    'is_sorted' => $params->isSortedBy('academic_status') ? ($params->getSortDirection() == 'asc' ?
+                        '↑' : '↓') : ''
+                ],
+            ],
+        ];
 
         $data = [
             'title' => 'Student List',
-            'students' => $students
+            'params' => $params,
+            'pager' => $results['pager'],
+            'total' => $results['total'],
+            'studyProgram' => $this->studentModel->getAllStudyProgram(),
+            'statuses' => $this->studentModel->getAllStatus(),
+            'entryYears' => $this->studentModel->getAllEntryYear(),
+            'baseURL' => base_url('student'),
+            
         ];
-        $data['grades_cell'] = view_cell('LatestGradesCell', ['grades' => [90, 80, 90, 70, 70]], 21600, 'grades_cell');
-        $data['content'] = $parser->setData($data)->render('students/student_list');
 
-        return view('partials/parser_layout', $data);
+        $data['content'] = $parser->setData($dataParser)->render('partials/parser_student_list');
+
+        return view('students/index', $data);
     }
 
     public function profile($id)

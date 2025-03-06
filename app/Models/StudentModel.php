@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Libraries\DataParams;
 use CodeIgniter\Model;
 
 class StudentModel extends Model
@@ -90,5 +91,79 @@ class StudentModel extends Model
         $student = $this->find($id);
 
         return $student->toArray();
+    }
+
+    public function getFilteredStudents(DataParams $params)
+    {
+        // Apply search
+        if (!empty($params->search)) {
+            $this->groupStart()
+                ->like('student_id', $params->search, 'both', null, true)
+                ->orLike('name', $params->search, 'both', null, true)
+                ->orLike('study_program', $params->search, 'both', null, true)
+                ->orLike('academic_status', $params->search, 'both', null, true);
+            if (is_numeric($params->search)) {
+                $this->orWhere('CAST (student_id AS TEXT) LIKE', "%$params->search%")
+                    ->orWhere('CAST (current_semester AS TEXT) LIKE', "%$params->search%")
+                    ->orWhere('CAST (gpa AS TEXT) LIKE', "%$params->search%")
+                    ->orWhere('CAST (entry_year AS TEXT) LIKE', "%$params->search%");
+            }
+            $this->groupEnd();
+        }
+
+        // Apply study program filter
+        if (!empty($params->studyProgram)) {
+            $this->where('study_program', $params->studyProgram);
+        }
+
+        // Apply status filter
+        if (!empty($params->status)) {
+            $this->where('academic_status', $params->status);
+        }
+
+        // Apply entry year filter 
+        if (!empty($params->entryYear)) {
+            $this->where('entry_year', $params->entryYear);
+        }
+
+        // Apply sort
+        $allowedSortColumns = ['id', 'student_id', 'name', 'study_program', 'academic_status', 'entry_year', 'gpa'];
+        $sort = in_array($params->sort, $allowedSortColumns) ? $params->sort : 'id';
+        $order = ($params->order === 'desc') ? 'desc' : 'asc';
+
+        $this->orderBy($sort, $order);
+
+        $result = [
+            'students' => $this->paginate($params->perPage, 'students', $params->page),
+            'pager' => $this->pager,
+            'total' => $this->countAllResults(false)
+        ];
+        return $result;
+    }
+
+    public function getTotalStudents()
+    {
+        return $this->countAllResults();
+    }
+
+    public function getAllStudyProgram()
+    {
+        $programs = $this->select('study_program')->distinct()->findAll();
+
+        return array_column($programs, 'study_program');
+    }
+
+    public function getAllStatus()
+    {
+        $statuses = $this->select('academic_status')->distinct()->findAll();
+
+        return array_column($statuses, 'academic_status');
+    }
+
+    public function getAllEntryYear()
+    {
+        $entryYears = $this->select('entry_year')->distinct()->findAll();
+
+        return array_column($entryYears, 'entry_year');
     }
 }

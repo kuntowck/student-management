@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $this->renderSection('title'); ?></title>
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
+    <script src="<?= base_url('assets/js/pristine.js') ?>"></script>
 </head>
 
 <body class="flex flex-col min-h-screen">
@@ -22,6 +23,7 @@
 
     <?= $this->include('partials/footer'); ?>
 
+    <?= $this->renderSection('scripts'); ?>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js">
     </script>
 </body>
