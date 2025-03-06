@@ -17,7 +17,7 @@
                                 </svg>
                             </div>
                             <input name="search" type="search" id="default-search" value="<?= $params->search; ?>" class="block w-full p-4 ps-10 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" placeholder="Search course..." />
-                            <button type="submit" class="text-white absolute end-2.5 bottom-2.5 bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2">Search</button>
+                            <button type="submit" class="text-white absolute end-2.5 bottom-2.5 bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-md text-sm px-4 py-2">Search</button>
                         </div>
                     </div>
 
@@ -51,8 +51,8 @@
                             </select>
                         </div>
 
-                        <div class="">
-                            <a href="<?= $params->getResetUrl($baseURL); ?>" class="w-full px-4 py-2 bg-blue-500 text-white font-semibold text-sm rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 text-center">Reset</a>
+                        <div class="place-self-center ">
+                            <a href="<?= $params->getResetUrl($baseURL); ?>" class="w-full px-4 py-2 bg-blue-500 text-white font-semibold text-md rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 text-center">Reset</a>
                         </div>
                     </div>
                 </div>
@@ -105,11 +105,11 @@
                                 <?= $course->semester; ?>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <a href="course/detail/<?= $course->id; ?>" class="inline-block px-4 py-2 text-xs font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100">Profile</a>
-                                <a href="course/update/<?= $course->id; ?>" class="inline-block px-4 py-2 text-xs font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100">Update</a>
+                                <a href="course/detail/<?= $course->id; ?>" class="inline-block px-4 py-2 text-xs font-medium text-gray-900 focus:outline-none bg-white rounded-md border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100">Profile</a>
+                                <a href="course/update/<?= $course->id; ?>" class="inline-block px-4 py-2 text-xs font-medium text-gray-900 focus:outline-none bg-white rounded-md border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100">Update</a>
                                 <form action="course/delete/<?= $course->id; ?>" method="post" class="inline-block">
                                     <input type="hidden" name="_method" value="DELETE">
-                                    <button type="submit" class="inline-block px-2 py-2 text-xs font-medium text-white focus:outline-none bg-red-500 rounded-lg border border-red-200 hover:bg-red-700 hover:text-gray-200 focus:z-10 focus:ring-4 focus:ring-red-100 cursor-pointer">Delete</button>
+                                    <button type="submit" class="inline-block px-2 py-2 text-xs font-medium text-white focus:outline-none bg-red-500 rounded-md border border-red-200 hover:bg-red-700 hover:text-gray-200 focus:z-10 focus:ring-4 focus:ring-red-100 cursor-pointer">Delete</button>
                                 </form>
                             </td>
                         </tr>
@@ -124,7 +124,7 @@
 
         <div class="mb-4 text-center">
             <small>
-                Showing <?= $total ?> total data | Page <?= $params->page ?>
+                Showing <?= count($courses); ?> from <?= $total ?> total data | Page <?= $params->page ?>
             </small>
         </div>
     </div>
