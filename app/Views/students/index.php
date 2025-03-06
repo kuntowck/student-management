@@ -11,9 +11,8 @@
 
         <div class="mb-4">
             <form action="<?= $baseURL; ?>" method="get">
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-
-                    <div class="col-span-2">
+                <div class="mb-4">
+                    <div class="flex-wrap items-center gap-4">
                         <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only">Search</label>
                         <div class="relative">
                             <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -26,48 +25,50 @@
                         </div>
                     </div>
 
-                    <div class="col-span-1">
-                        <select name="studyProgram" class="form-select mt-1 block w-full px-3 py-4 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" onchange="this.form.submit()">
-                            <option value="">All study program</option>
-                            <?php foreach ($studyProgram as $program): ?>
-                                <option value="<?= $program; ?>" <?= ($params->studyProgram === $program) ? 'selected' : '' ?>>
-                                    <?= ucfirst($program) ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mt-4">
+                        <div class="">
+                            <select name="studyProgram" class="form-select mt-1 block w-full px-3 py-4 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" onchange="this.form.submit()">
+                                <option value="">All study program</option>
+                                <?php foreach ($studyProgram as $program): ?>
+                                    <option value="<?= $program; ?>" <?= ($params->studyProgram === $program) ? 'selected' : '' ?>>
+                                        <?= ucfirst($program) ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
 
-                    <div class="col-span-1">
-                        <select name="status" class="form-select mt-1 block w-full px-3 py-4 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" onchange="this.form.submit()">
-                            <option value="">All academic status</option>
-                            <?php foreach ($statuses as $status): ?>
-                                <option value="<?= $status; ?>" <?= ($params->status === $status) ? 'selected' : '' ?>>
-                                    <?= ucfirst($status) ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
+                        <div class="">
+                            <select name="status" class="form-select mt-1 block w-full px-3 py-4 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" onchange="this.form.submit()">
+                                <option value="">All academic status</option>
+                                <?php foreach ($statuses as $status): ?>
+                                    <option value="<?= $status; ?>" <?= ($params->status === $status) ? 'selected' : '' ?>>
+                                        <?= ucfirst($status) ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
 
-                    <div class="col-span-1">
-                        <select name="entryYear" class="form-select mt-1 block w-full px-3 py-4 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" onchange="this.form.submit()">
-                            <option value="">All entry year</option>
-                            <?php foreach ($entryYears as $year): ?>
-                                <option value="<?= $year; ?>" <?= ($params->entryYear === $year) ? 'selected' : '' ?>>
-                                    <?= ucfirst($year) ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
+                        <div class="">
+                            <select name="entryYear" class="form-select mt-1 block w-full px-3 py-4 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" onchange="this.form.submit()">
+                                <option value="">All entry year</option>
+                                <?php foreach ($entryYears as $year): ?>
+                                    <option value="<?= $year; ?>" <?= ($params->entryYear === $year) ? 'selected' : '' ?>>
+                                        <?= ucfirst($year) ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
 
-                    <div class="col-span-1">
-                        <select name="perPage" class="form-select mt-1 block w-full px-3 py-4 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" onchange="this.form.submit()">
-                            <option value="2" <?= $params->perPage === 2 ? 'selected' : ''; ?>>2 Halaman</option>
-                            <option value="4" <?= $params->perPage === 4 ? 'selected' : ''; ?>>4 Halaman</option>
-                        </select>
-                    </div>
+                        <div class="">
+                            <select name="perPage" class="form-select mt-1 block w-full px-3 py-4 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" onchange="this.form.submit()">
+                                <option value="2" <?= $params->perPage === 2 ? 'selected' : ''; ?>>2 page</option>
+                                <option value="4" <?= $params->perPage === 4 ? 'selected' : ''; ?>>4 page</option>
+                            </select>
+                        </div>
 
-                    <div class="col-span-1">
-                        <a href="<?= $params->getResetUrl($baseURL); ?>" class="w-full px-4 py-4 bg-blue-500 text-white font-semibold text-sm rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">Reset</a>
+                        <div class="">
+                            <a href="<?= $params->getResetUrl($baseURL); ?>" class="w-full px-4 py-2 bg-blue-500 text-white font-semibold text-sm rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 text-center">Reset</a>
+                        </div>
                     </div>
                 </div>
 
@@ -77,7 +78,7 @@
         </div>
 
         <div class="mb-4">
-            <a href="/student/create" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            <a href="/student/create" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-500 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                 Create
             </a>
         </div>

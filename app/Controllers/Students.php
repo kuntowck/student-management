@@ -95,7 +95,7 @@ class Students extends BaseController
             'statuses' => $this->studentModel->getAllStatus(),
             'entryYears' => $this->studentModel->getAllEntryYear(),
             'baseURL' => base_url('student'),
-            
+
         ];
 
         $data['content'] = $parser->setData($dataParser)->render('partials/parser_student_list');
@@ -128,11 +128,9 @@ class Students extends BaseController
     {
         $data = $this->request->getPost();
 
-        if (!$this->studentModel->validate($data)) {
+        if (!$this->studentModel->save($data)) {
             return redirect()->back()->withInput()->with('errors', $this->studentModel->errors());
         }
-
-        $this->studentModel->save($data);
 
         return redirect()->to('/student');
     }
@@ -148,11 +146,11 @@ class Students extends BaseController
     {
         $data = $this->request->getPost();
 
-        if (!$this->studentModel->validate($data)) {
+        $this->studentModel->setValidationRule('student_id', "required|is_unique[students.student_id,id,{$id}]");
+
+        if (!$this->studentModel->update($id, $data)) {
             return redirect()->back()->withInput()->with('errors', $this->studentModel->errors());
         }
-
-        $this->studentModel->update($id, $data);
 
         return redirect()->to('/student');
     }

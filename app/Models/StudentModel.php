@@ -38,11 +38,16 @@ class StudentModel extends Model
 
     // Validation
     protected $validationRules      = [
+        'student_id'       => 'required|is_unique[students.student_id,id,{id}]',
         'current_semester' => 'required|integer|greater_than_equal_to[1]|less_than_equal_to[14]',
         'gpa'              => 'required|decimal|greater_than_equal_to[0]|less_than_equal_to[4.00]',
         'academic_status'  => 'required|in_list[active,on leave,graduated]',
     ];
     protected $validationMessages   = [
+        'student_id' => [
+            'required'  => 'Student ID is required.',
+            'is_unique' => 'Student ID must be unique.',
+        ],
         'current_semester' => [
             'required' => 'Semester is required.',
             'integer'  => 'Semester must be a number.',
