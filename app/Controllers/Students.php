@@ -16,6 +16,12 @@ class Students extends BaseController
         $this->studentModel = new StudentModel();
     }
 
+    public function dashboard()
+    {
+
+        return view('partials/dashboard');
+    }
+
     public function index()
     {
         $parser = service('parser');
