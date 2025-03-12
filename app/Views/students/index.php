@@ -5,8 +5,8 @@
 <?= $this->extend('layouts/main'); ?>
 
 <?= $this->section('content'); ?>
-<div class="max-w-screen-xl mx-auto p-4">
-    <div class="bg-white shadow-sm rounded-lg p-6">
+<div class="w-full max-w-screen-xl mx-auto">
+    <div class="bg-white shadow-sm rounded-lg p-8">
         <h1 class="text-2xl font-bold mb-4"><?= $title; ?></h1>
 
         <div class="mb-4">
@@ -78,7 +78,7 @@
         </div>
 
         <div class="mb-4">
-            <a href="/student/create" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-500 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+            <a href="<?= base_url('admin/students/create'); ?>" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-500 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                 Create
             </a>
         </div>

@@ -100,7 +100,7 @@ class Students extends BaseController
             'studyProgram' => $this->studentModel->getAllStudyProgram(),
             'statuses' => $this->studentModel->getAllStatus(),
             'entryYears' => $this->studentModel->getAllEntryYear(),
-            'baseURL' => base_url('student'),
+            'baseURL' => base_url('admin/students'),
 
         ];
 
