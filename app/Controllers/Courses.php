@@ -37,10 +37,10 @@ class Courses extends BaseController
             'total' => $results['total'],
             'credits' => $this->courseModel->getAllCredits(),
             'semesters' => $this->courseModel->getAllSemesters(),
-            'baseURL' => base_url('course'),
+            'baseURL' => base_url('lecturer/courses'),
         ];
 
-        return view('courses/course_list', $data);
+        return view('courses/index', $data);
     }
 
     public function detail($id)

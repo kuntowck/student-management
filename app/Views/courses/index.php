@@ -1,8 +1,8 @@
 <?= $this->extend('layouts/main') ?>
 
 <?= $this->section('content') ?>
-<div class="max-w-screen-xl mx-auto p-4">
-    <div class="bg-white shadow-sm rounded-lg p-6">
+<div class="w-full max-w-screen-xl mx-auto">
+    <div class="bg-white shadow-sm rounded-lg p-8">
         <h1 class="text-2xl font-bold mb-4"><?= $title; ?></h1>
 
         <div class="mb-4">
@@ -63,7 +63,7 @@
         </div>
 
         <div class="mb-4">
-            <a href="/course/create" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-500 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+            <a href="<?= base_url('lecturer/courses/create'); ?>" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-500 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                 Create
             </a>
         </div>
@@ -105,9 +105,9 @@
                                 <?= $course->semester; ?>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <a href="course/detail/<?= $course->id; ?>" class="inline-block px-4 py-2 text-xs font-medium text-gray-900 focus:outline-none bg-white rounded-md border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100">Profile</a>
-                                <a href="course/update/<?= $course->id; ?>" class="inline-block px-4 py-2 text-xs font-medium text-gray-900 focus:outline-none bg-white rounded-md border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100">Update</a>
-                                <form action="course/delete/<?= $course->id; ?>" method="post" class="inline-block">
+                                <a href="<?= base_url('lecturer/courses/detail/' . $course->id); ?>" class="inline-block px-4 py-2 text-xs font-medium text-gray-900 focus:outline-none bg-white rounded-md border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100">Detail</a>
+                                <a href="<?= base_url('lecturer/courses/update/' . $course->id); ?>" class="inline-block px-4 py-2 text-xs font-medium text-gray-900 focus:outline-none bg-white rounded-md border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100">Update</a>
+                                <form action="<?= base_url('lecturer/courses/delete/' . $course->id); ?>" method="post" class="inline-block">
                                     <input type="hidden" name="_method" value="DELETE">
                                     <button type="submit" class="inline-block px-2 py-2 text-xs font-medium text-white focus:outline-none bg-red-500 rounded-md border border-red-200 hover:bg-red-700 hover:text-gray-200 focus:z-10 focus:ring-4 focus:ring-red-100 cursor-pointer">Delete</button>
                                 </form>
