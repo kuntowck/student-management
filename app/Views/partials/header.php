@@ -19,6 +19,13 @@
                     <li>
                         <a href="/course" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 ">Course</a>
                     </li>
+                    <li>
+                        <?php if (logged_in()): ?>
+                            <a href="/logout" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 ">Logout</a>
+                        <?php else: ?>
+                            <a href="/login" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 ">Login</a>
+                        <?php endif; ?>
+                    </li>
                 </ul>
             </div>
         </div>
