@@ -9,19 +9,24 @@
     <script src="<?= base_url('assets/js/pristine.js') ?>"></script>
 </head>
 
-<body class="flex flex-col min-h-screen">
-    <?= $this->include('partials/header'); ?>
+<body class="flex flex-col bg-gray-50">
 
-    <main class="flex-grow container mx-auto p-4 flex">
-        <aside class="w-1/4 p-4">
+    <header>
+        <?= $this->include('partials/header'); ?>
+    </header>
+
+    <main class="flex flex-grow container mx-auto">
+        <aside class="w-sm p-6">
             <?= $this->include('partials/sidebar'); ?>
         </aside>
-        <section class="w-3/4 p-4">
+        <section class="w-full p-6">
             <?= $this->renderSection('content'); ?>
         </section>
     </main>
 
-    <?= $this->include('partials/footer'); ?>
+    <footer class="bg-white rounded-lg shadow-sm m-4">
+        <?= $this->include('partials/footer'); ?>
+    </footer>
 
     <?= $this->renderSection('scripts'); ?>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js">
