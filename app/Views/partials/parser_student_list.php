@@ -22,7 +22,7 @@
             <td class="px-6 py-4 whitespace-nowrap">{gpa}</td>
             <td class="px-6 py-4 whitespace-nowrap">{!status_cell!}</td>
             <td class="px-6 py-4 whitespace-nowrap">
-                <a href="students/profile/{id}" class="inline-block px-4 py-2 text-xs font-medium text-gray-900 focus:outline-none bg-white rounded-md border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100">Profile</a>
+                <a href="students/detail/{id}" class="inline-block px-4 py-2 text-xs font-medium text-gray-900 focus:outline-none bg-white rounded-md border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100">Detail</a>
                 <a href="students/update/{id}" class="inline-block px-4 py-2 text-xs font-medium text-gray-900 focus:outline-none bg-white rounded-md border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100">Update</a>
                 <form action="students/delete/{id}" method="post" class="inline-block">
                     <input type="hidden" name="_method" value="DELETE">
