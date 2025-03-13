@@ -30,7 +30,7 @@ class Courses extends BaseController
         $results = $this->courseModel->getFilteredCourses($params);
 
         $data = [
-            'title' => 'Course List',
+            'title' => 'Course Management',
             'params' => $params,
             'courses' => $results['courses'],
             'pager' => $results['pager'],
@@ -63,7 +63,7 @@ class Courses extends BaseController
             return redirect()->back()->withInput()->with('errors', $this->courseModel->errors());
         }
 
-        return redirect()->to('/course');
+        return redirect()->to('lecturer/courses')->with('message', 'Course has been successfully added.');
     }
 
     public function update($id)
@@ -83,13 +83,13 @@ class Courses extends BaseController
 
         $this->courseModel->update($id, $data);
 
-        return redirect()->to('/course');
+        return redirect()->to('lecturer/courses')->with('message', 'Course has been successfully added.');
     }
 
     public function delete($id)
     {
         $this->courseModel->delete($id);
 
-        return redirect()->to('/course');
+        return redirect()->to('lecturer/courses')->with('message', 'Course has been successfully added.');
     }
 }

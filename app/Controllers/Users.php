@@ -29,7 +29,7 @@ class Users extends BaseController
     public function index()
     {
         $data = [
-            'title' => 'Manajemen User',
+            'title' => 'User Management',
             'users' => $this->userModel->findAll()
         ];
 
@@ -58,7 +58,7 @@ class Users extends BaseController
         ];
 
         if (empty($data['user'])) {
-            return redirect()->to('/users')->with('error', 'User tidak ditemukan');
+            return redirect()->to('/users')->with('error', 'User is not found.');
         }
 
         return view('users/update', $data);
@@ -82,7 +82,7 @@ class Users extends BaseController
         $groupId = $this->request->getVar('group');
         $this->groupModel->addUserToGroup($userId, $groupId);
 
-        return redirect()->to('admin/users')->with('message', 'User berhasil ditambahkan');
+        return redirect()->to('admin/users')->with('message', 'User has been successfully added.');
     }
 
     public function update($id)
@@ -90,7 +90,7 @@ class Users extends BaseController
         $user = $this->userModel->find($id);
 
         if (!$user) {
-            return redirect()->to('/users')->with('error', 'User tidak ditemukan');
+            return redirect()->to('/users')->with('error', 'User is not found.');
         }
 
         // cek username unik
@@ -100,7 +100,7 @@ class Users extends BaseController
             $existingUser = $this->userModel->where('email', $newUsername)->first();
 
             if ($existingUser) {
-                return redirect()->back()->withInput()->with('error', 'Username sudah digunakan');
+                return redirect()->back()->withInput()->with('error', 'Username already used.');
             }
         }
 
@@ -111,7 +111,7 @@ class Users extends BaseController
             $existingEmail = $this->userModel->where('email', $newEmail)->first();
 
             if ($existingEmail) {
-                return redirect()->back()->withInput()->with('error', 'Email sudah digunakan');
+                return redirect()->back()->withInput()->with('error', 'Email already used.');
             }
         }
 
@@ -152,7 +152,7 @@ class Users extends BaseController
             $this->groupModel->addUserToGroup($id, $groupId);
         }
 
-        return redirect()->to('admin/users')->with('message', 'User berhasil di-update');
+        return redirect()->to('admin/users')->with('message', 'User has been successfully updated.');
     }
 
     public function delete($id)
@@ -160,11 +160,11 @@ class Users extends BaseController
         $user = $this->userModel->find($id);
 
         if (empty($user)) {
-            return redirect()->to('/users')->with('error', 'User tidak ditemukan');
+            return redirect()->to('/users')->with('error', 'User is not found.');
         }
 
         $this->userModel->delete($id);
 
-        return redirect()->to('admin/users')->with('message', 'User berhasil dihapus');
+        return redirect()->to('admin/users')->with('message', 'User has been successfully deleted.');
     }
 }

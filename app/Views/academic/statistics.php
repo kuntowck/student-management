@@ -1,11 +1,10 @@
-<?= $this->extend('layouts/main'); ?>
+<?= $this->extend('layouts/admin'); ?>
 
 <?= $this->section('title'); ?>
 <?= $title; ?>
 <?= $this->endSection(); ?>
 
 <?= $this->section('content'); ?>
-<div class="max-w-screen-xl mx-auto p-4">
     <div class="bg-white shadow-sm rounded-lg p-6">
         <h1 class="text-2xl font-bold mb-4"><?= $title; ?></h1>
 

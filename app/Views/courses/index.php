@@ -6,6 +6,20 @@
         <h1 class="text-2xl font-bold mb-4"><?= $title; ?></h1>
 
         <div class="mb-4">
+            <?php if (session()->getFlashdata('message')) : ?>
+                <div class="bg-green-100 text-green-800 text-sm font-medium me-2 px-4 py-2 rounded-sm">
+                    <?= session()->getFlashdata('message'); ?>
+                </div>
+            <?php endif; ?>
+
+            <?php if (session()->getFlashdata('error')) : ?>
+                <div class="bg-red-100 text-red-800 text-sm font-medium me-2 px-4 py-2 rounded-sm">
+                    <?= session()->getFlashdata('error'); ?>
+                </div>
+            <?php endif; ?>
+        </div>
+
+        <div class="mb-4">
             <form action="<?= $baseURL; ?>" method="get">
                 <div class="mb-4">
                     <div class="flex-wrap items-center gap-4">
@@ -124,7 +138,7 @@
 
         <div class="mb-4 text-center">
             <small>
-                Showing <?= count($courses); ?> from <?= $total ?> total data | Page <?= $params->page ?>
+                Showing <?= count($courses); ?> of <?= $total ?> total data | Page <?= $params->page ?>
             </small>
         </div>
     </div>

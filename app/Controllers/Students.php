@@ -5,15 +5,18 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\Libraries\DataParams;
 use App\Models\StudentModel;
+use Myth\Auth\Models\GroupModel;
+use Myth\Auth\Models\UserModel;
 
 class Students extends BaseController
 {
-    private $studentModel;
+    private $studentModel, $userModel, $groupModel;
 
     public function __construct()
     {
-
         $this->studentModel = new StudentModel();
+        $this->userModel = new UserModel();
+        $this->groupModel = new GroupModel();
     }
 
     public function dashboard()
@@ -49,43 +52,43 @@ class Students extends BaseController
             'tableHeader' => [
                 [
                     'name' => 'NIM',
-                    'href' => $params->getSortUrl('student_id', base_url('student')),
+                    'href' => $params->getSortUrl('student_id', base_url('admin/students')),
                     'is_sorted' => $params->isSortedBy('student_id') ? ($params->getSortDirection() == 'asc' ?
                         '↑' : '↓') : ''
                 ],
                 [
                     'name' => 'Name',
-                    'href' => $params->getSortUrl('name', base_url('student')),
+                    'href' => $params->getSortUrl('name', base_url('admin/students')),
                     'is_sorted' => $params->isSortedBy('name') ? ($params->getSortDirection() == 'asc' ?
                         '↑' : '↓') : ''
                 ],
                 [
                     'name' => 'Study Program',
-                    'href' => $params->getSortUrl('study_program', base_url('student')),
+                    'href' => $params->getSortUrl('study_program', base_url('admin/students')),
                     'is_sorted' => $params->isSortedBy('study_program') ? ($params->getSortDirection() == 'asc' ?
                         '↑' : '↓') : ''
                 ],
                 [
                     'name' => 'Current Semester',
-                    'href' => $params->getSortUrl('current_semester', base_url('student')),
+                    'href' => $params->getSortUrl('current_semester', base_url('admin/students')),
                     'is_sorted' => $params->isSortedBy('current_semester') ? ($params->getSortDirection() == 'asc' ?
                         '↑' : '↓') : ''
                 ],
                 [
                     'name' => 'Entry Year',
-                    'href' => $params->getSortUrl('entry_year', base_url('student')),
+                    'href' => $params->getSortUrl('entry_year', base_url('admin/students')),
                     'is_sorted' => $params->isSortedBy('entry_year') ? ($params->getSortDirection() == 'asc' ?
                         '↑' : '↓') : ''
                 ],
                 [
                     'name' => 'GPA',
-                    'href' => $params->getSortUrl('gpa', base_url('student')),
+                    'href' => $params->getSortUrl('gpa', base_url('admin/students')),
                     'is_sorted' => $params->isSortedBy('gpa') ? ($params->getSortDirection() == 'asc' ?
                         '↑' : '↓') : ''
                 ],
                 [
                     'name' => 'Status',
-                    'href' => $params->getSortUrl('academic_status', base_url('student')),
+                    'href' => $params->getSortUrl('academic_status', base_url('admin/students')),
                     'is_sorted' => $params->isSortedBy('academic_status') ? ($params->getSortDirection() == 'asc' ?
                         '↑' : '↓') : ''
                 ],
@@ -93,7 +96,7 @@ class Students extends BaseController
         ];
 
         $data = [
-            'title' => 'Student List',
+            'title' => 'Student Management',
             'params' => $params,
             'pager' => $results['pager'],
             'total' => $results['total'],
@@ -109,20 +112,37 @@ class Students extends BaseController
         return view('students/index', $data);
     }
 
-    public function profile($id)
+    public function detail($id)
     {
         $parser = service('parser');
+
         $student = $this->studentModel->getStudentArrayByID($id);
 
         $data = [
-            'title' => 'Student Profile',
+            'title' => 'Student Detail',
             'student' => [$student]
         ];
         $data['status_cell'] = view_cell('AcademicStatusCell', ['status' => $student['academic_status']], 86400, 'status_cell');
         $data['grades_cell'] = view_cell('LatestGradesCell', ['grades' => [90, 80, 90, 70, 70]], 21600, 'grades_cell');
-        $data['content'] = $parser->setData($data)->render('students/profile');
+        $data['content'] = $parser->setData($data)->render('partials/parser_profile');
 
-        return view('partials/parser_layout', $data);
+        return view('students/detail', $data);
+    }
+
+    public function profile()
+    {
+        $email = user()->__get('email');
+        $student = $this->studentModel->select('students.*, users.username')
+            ->join('users', 'users.email = students.email')
+            ->where('users.email', $email)
+            ->first();
+
+        $data = [
+            'title' => 'Student Profile',
+            'student' => $student
+        ];
+
+        return view('students/profile', $data);
     }
 
     public function create()
@@ -138,7 +158,7 @@ class Students extends BaseController
             return redirect()->back()->withInput()->with('errors', $this->studentModel->errors());
         }
 
-        return redirect()->to('/student');
+        return redirect()->to('admin/students')->with('message', 'Student has been successfully added.');
     }
 
     public function update($id)
@@ -158,13 +178,13 @@ class Students extends BaseController
             return redirect()->back()->withInput()->with('errors', $this->studentModel->errors());
         }
 
-        return redirect()->to('/student');
+        return redirect()->to('admin/students')->with('message', 'Student has been successfully updated.');
     }
 
     public function delete($id)
     {
         $this->studentModel->delete($id);
 
-        return redirect()->to('/student');
+        return redirect()->to('admin/students')->with('message', 'Student has been successfully deleted.');
     }
 }

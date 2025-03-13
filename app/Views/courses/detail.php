@@ -5,17 +5,21 @@
     <div class="bg-white shadow-sm rounded-md p-8">
         <h1 class="text-2xl font-bold mb-4">Detail Course</h1>
         <div class="mb-4">
-            <p class="text-lg font-semibold">
-                Code: <?= $course['code']; ?>
+            <p>
+                <span class="font-semibold">Code: </span>
+                <?= $course['code']; ?>
             </p>
-            <p class="text-lg font-semibold">
-                Course Name: <?= $course['name']; ?>
+            <p>
+                <span class="font-semibold">Course Name: </span>
+                <?= $course['name']; ?>
             </p>
-            <p class="text-lg font-semibold">
-                Study Program: <?= $course['credits']; ?>
+            <p>
+                <span class="font-semibold">Study Program: </span>
+                <?= $course['credits']; ?>
             </p>
-            <p class="text-lg font-semibold">
-                Semester: <?= $course['semester']; ?>
+            <p>
+                <span class="font-semibold">Semester: </span>
+                <?= $course['semester']; ?>
             </p>
         </div>
 

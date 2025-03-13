@@ -4,7 +4,7 @@
 <div class="w-full max-w-screen-xl mx-auto">
     <div class="bg-white shadow-sm rounded-lg p-8">
         <h1 class="text-2xl font-bold mb-4">Create Course</h1>
-        <form method="post" action="/course/create" class="space-y-4">
+        <form method="post" action="<?= base_url('lecturer/courses/create'); ?>" class="space-y-4">
             <?= csrf_field(); ?>
 
             <div>
