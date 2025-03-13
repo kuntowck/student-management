@@ -4,17 +4,21 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Libraries\DataParams;
+use App\Models\CourseModel;
+use App\Models\EnrollmentModel;
 use App\Models\StudentModel;
 use Myth\Auth\Models\GroupModel;
 use Myth\Auth\Models\UserModel;
 
 class Students extends BaseController
 {
-    private $studentModel, $userModel, $groupModel;
+    private $studentModel, $enrollmentModel, $courseModel, $userModel, $groupModel;
 
     public function __construct()
     {
         $this->studentModel = new StudentModel();
+        $this->enrollmentModel = new EnrollmentModel();
+        $this->courseModel = new CourseModel();
         $this->userModel = new UserModel();
         $this->groupModel = new GroupModel();
     }
@@ -186,5 +190,24 @@ class Students extends BaseController
         $this->studentModel->delete($id);
 
         return redirect()->to('admin/students')->with('message', 'Student has been successfully deleted.');
+    }
+
+    public function enrollment()
+    {
+        $student = $this->studentModel->where('email', user()->email)->first();
+
+        $enrollments = $this->enrollmentModel->select('enrollments.*, students.name as student_name, courses.name as course_name')
+            ->join('students', 'students.student_id = enrollments.student_id', 'left')
+            ->join('courses', 'courses.id = enrollments.course_id', 'left')
+            ->where('enrollments.student_id', $student->student_id)
+            ->findAll();
+
+        $data = [
+            'title' => 'Enrollments',
+            'enrollments' => $enrollments
+        ];
+
+
+        return view('students/enrollment', $data);
     }
 }

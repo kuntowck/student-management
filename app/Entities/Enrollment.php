@@ -4,7 +4,7 @@ namespace App\Entities;
 
 use CodeIgniter\Entity\Entity;
 
-class Course extends Entity
+class Enrollment extends Entity
 {
     protected $datamap = [];
     protected $dates   = ['created_at', 'updated_at', 'deleted_at'];
@@ -13,7 +13,9 @@ class Course extends Entity
         'updated_at' => 'datetime',
     ];
     protected $attributes = [
-        'academic_year' => null,
-        'status' => null
+        'code' => null,
+        'name' => null,
+        'credits' => null,
+        'semester' => null,
     ];
 }
