@@ -8,11 +8,11 @@
         </h1>
 
         <?php if (session('error') !== null): ?>
-            <div class="text-red-800 text-sm font-medium mt-2">
+            <div class="bg-red-100 text-red-800 text-sm font-medium mt-2 me-2 px-4 py-2 rounded-sm">
                 <?= session('error') ?? ''; ?>
             </div>
         <?php elseif (session('message') !== null): ?>
-            <div class="text-green-500 text-sm font-medium mt-2">
+            <div class="bg-green-100 text-green-800 text-sm font-medium mt-2 me-2 px-4 py-2 rounded-sm">
                 <?= session('message') ?? ''; ?>
             </div>
         <?php endif; ?>
@@ -32,7 +32,7 @@
                     value="<?= old('login'); ?>">
 
                 <?php if (session('errors.login')): ?>
-                    <div class="text-red-800 text-s font-medium mt-2">
+                    <div class="text-red-800 text-xs font-medium mt-2">
                         <?= session('errors.login'); ?>
                     </div>
                 <?php endif; ?>
@@ -47,23 +47,38 @@
                     class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 <?= session('errros.password'); ?>">
 
                 <?php if (session('errors.password')): ?>
-                    <div class="text-red-800 text-s font-medium mt-2">
+                    <div class="text-red-800 text-xs font-medium mt-2">
                         <?= session('errors.password'); ?>
                     </div>
                 <?php endif; ?>
             </div>
-            <div class="flex items-center justify-between">
-                <div class="flex items-start">
-                    <div class="flex items-center h-5">
-                        <input id="remember" aria-describedby="remember" type="checkbox" class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300">
+
+            <?php if ($config->allowRemembering): ?>
+                <div class="flex items-center justify-between">
+                    <div class="flex items-start">
+                        <div class="flex items-center h-5">
+                            <input
+                                id="remember"
+                                name="remember"
+                                aria-describedby="remember"
+                                type="checkbox"
+                                class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 <?php old('remember') ? 'checked' : '' ?>">
+                        </div>
+                        <div class="ml-3 text-sm">
+                            <label for="remember" class="text-gray-500">
+                                <?= lang('Auth.rememberMe') ?>
+                            </label>
+                        </div>
                     </div>
-                    <div class="ml-3 text-sm">
-                        <label for="remember" class="text-gray-500">Remember me</label>
-                    </div>
+                    <?php if ($config->activeResetter): ?>
+                        <a href="<?= route_to('forgot'); ?>" class="text-sm font-medium text-blue-600 hover:underline">
+                            <?= lang('Auth.forgotYourPassword') ?>
+                        </a>
+                    <?php endif; ?>
                 </div>
-                <a href="<?= route_to('forgot'); ?>" class="text-sm font-medium text-blue-600 hover:underline">Forgot password?</a>
-            </div>
-            <button type="submit" class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Sign in</button>
+            <?php endif; ?>
+
+            <button type="submit" class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center cursor-pointer">Sign in</button>
             <p class="text-sm font-light text-gray-500">
                 Don’t have an account yet? <a href="/register" class="font-medium text-blue-600 hover:underline">Sign up</a>
             </p>

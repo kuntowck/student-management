@@ -136,17 +136,21 @@ class Students extends BaseController
     public function profile()
     {
         $email = user()->__get('email');
+
         $student = $this->studentModel->select('students.*, users.username')
             ->join('users', 'users.email = students.email')
             ->where('users.email', $email)
             ->first();
 
-        $data = [
-            'title' => 'Student Profile',
-            'student' => $student
-        ];
+        if (!empty($student)) {
+            $data = [
+                'title' => 'Student Profile',
+                'student' => $student
+            ];
 
-        return view('students/profile', $data);
+            return view('students/profile', $data);
+        }
+        return redirect()->back()->with('message', "Cannot access profile. You don't have data student.");
     }
 
     public function create()
@@ -196,18 +200,21 @@ class Students extends BaseController
     {
         $student = $this->studentModel->where('email', user()->email)->first();
 
-        $enrollments = $this->enrollmentModel->select('enrollments.*, students.name as student_name, courses.name as course_name')
-            ->join('students', 'students.student_id = enrollments.student_id', 'left')
-            ->join('courses', 'courses.id = enrollments.course_id', 'left')
-            ->where('enrollments.student_id', $student->student_id)
-            ->findAll();
+        if (!empty($student)) {
+            $enrollments = $this->enrollmentModel->select('enrollments.*, students.name as student_name, courses.name as course_name')
+                ->join('students', 'students.student_id = enrollments.student_id', 'left')
+                ->join('courses', 'courses.id = enrollments.course_id', 'left')
+                ->where('enrollments.student_id', $student->student_id)
+                ->findAll();
 
-        $data = [
-            'title' => 'Enrollments',
-            'enrollments' => $enrollments
-        ];
+            $data = [
+                'title' => 'Enrollments',
+                'enrollments' => $enrollments
+            ];
 
+            return view('students/enrollment', $data);
+        }
 
-        return view('students/enrollment', $data);
+        return redirect()->back()->with('message', "Cannot access enrollment. You don't have data student.");
     }
 }
