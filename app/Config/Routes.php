@@ -8,7 +8,7 @@ use App\Controllers\Students;
 /**
  * @var RouteCollection $routes
  */
-$routes->get('/', 'Students::index');
+$routes->get('/', 'Home::index');
 
 // $routes->get('/mahasiswa', [Mahasiswa::class, 'index']);
 // $routes->get('/mahasiswa/detail/(:num)', [Mahasiswa::class, 'detail/$1']);
@@ -32,6 +32,7 @@ $routes->group('', ['namespace' => 'App\Controllers'], function ($routes) {
 // Routes yang hanya bisa diakses admin
 $routes->group('admin', ['filter' => 'role:admin'], function ($routes) {
     $routes->get('dashboard', 'Admin::dashboard');
+    $routes->get('statistic', 'Academic::statistic');
     $routes->get('manage-users', 'Auth::manageUsers');
     $routes->get('manage-roles', 'Auth::manageRoles');
 });
@@ -69,7 +70,7 @@ $routes->group('admin/users', ['filter' => 'role:admin'], function ($routes) {
 
 $routes->group('admin/students', ['filter' => 'role:admin'], function ($routes) {
     $routes->get('/', 'Students::index');
-    $routes->get('profile/(:num)', 'Students::profile/$1');
+    $routes->get('detail/(:num)', 'Students::detail/$1');
     $routes->get('create', 'Students::create');
     $routes->post('store', 'Students::store');
     $routes->get('update/(:num)', 'Students::update/$1');

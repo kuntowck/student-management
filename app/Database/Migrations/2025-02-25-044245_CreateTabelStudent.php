@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
@@ -18,6 +19,11 @@ class CreateStudentsTable extends Migration
                 'type' => 'VARCHAR',
                 'constraint' => 20,
                 'unique' => true,
+                'null' => false,
+            ],
+            'email' => [
+                'type' => 'VARCHAR',
+                'constraint' => 255,
                 'null' => false,
             ],
             'name' => [
@@ -60,6 +66,7 @@ class CreateStudentsTable extends Migration
         ]);
 
         $this->forge->addPrimaryKey('id');
+        $this->forge->addForeignKey('email', 'users', 'email', 'CASCADE', 'CASCADE');
         $this->forge->createTable('students');
     }
 

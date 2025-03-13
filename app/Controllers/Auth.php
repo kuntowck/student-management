@@ -43,22 +43,7 @@ class Auth extends MythAuthController
 
     public function attemptRegister()
     {
-        $result = parent::attemptRegister();
-
-        $email = $this->request->getPost('email');
-        $user = $this->userModel->where('email', $email)->first();
-
-        if ($user) {
-            $studentGroup = $this->groupModel->where('name', 'student')->first();
-            // $lecturerGroup = $this->groupModel->where('name', 'lecturer')->first();
-            // $adminGroup = $this->groupModel->where('name', 'admin')->first();
-
-            if ($studentGroup) {
-                $this->groupModel->addUserToGroup($user->id, $studentGroup->id);
-            }
-        }
-
-        return redirect()->route('login')->with('message', lang('Auth.registersuccess'));
+        return parent::attemptRegister();
     }
 
     private function redirectBasedOnRole()
