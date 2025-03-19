@@ -10,20 +10,11 @@ class Users extends BaseController
 {
     protected $userModel;
     protected $groupModel;
-    protected $db;
-    protected $config;
 
     public function __construct()
     {
         $this->userModel = new UserModel();
         $this->groupModel = new GroupModel();
-        $this->db = \Config\Database::connect();
-        $this->config = config('Auth');
-
-        helper(['auth']);
-        if (!in_groups('admin')) {
-            return redirect()->to('/');
-        }
     }
 
     public function index()
@@ -121,12 +112,14 @@ class Users extends BaseController
 
         if (!empty($password)) {
             if ($password != $passConfirm) {
-                return redirect()->back()->withInput()->with('error', 'Password dan konfirmasi tidak sama');
+                return redirect()->back()->withInput()->with('error', 'Password and confirmation are not the same.');
             }
         }
-        
+
+        $this->userModel->setValidationRule('id', 'required|numeric|is_natural_no_zero|is_not_unique[users.id]');
+
         $newUser = new \Myth\Auth\Entities\User();
-        
+
         $newUser->id = $id;
         $newUser->username = $newUsername;
         $newUser->email = $newEmail;
@@ -137,7 +130,9 @@ class Users extends BaseController
             $newUser->password = $password;
         }
 
-        $this->userModel->save($newUser);
+        if (!$this->userModel->save($newUser)) {
+            return redirect()->back()->withInput()->with('errors', $this->userModel->errors());
+        }
 
         // update user ke dalam group
         $groupId = $this->request->getVar('group');

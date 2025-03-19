@@ -33,6 +33,10 @@ class Auth extends MythAuthController
     {
         parent::attemptLogin();
 
+        if (!user_id()) {
+            return redirect()->back()->withInput()->with('error', 'Please check your credentials.');
+        }
+
         return $this->redirectBasedOnRole();
     }
 
@@ -44,6 +48,10 @@ class Auth extends MythAuthController
     public function attemptRegister()
     {
         return parent::attemptRegister();
+
+        if ($this->users->errors()) {
+            return redirect()->back()->withInput()->with('errors', $this->users->errors());
+        }
     }
 
     private function redirectBasedOnRole()

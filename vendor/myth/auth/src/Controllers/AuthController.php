@@ -11,7 +11,7 @@ use Myth\Auth\Models\UserModel;
 class AuthController extends Controller
 {
     protected $auth;
-
+    protected $users;
     /**
      * @var AuthConfig
      */
@@ -30,6 +30,7 @@ class AuthController extends Controller
 
         $this->config = config('Auth');
         $this->auth   = service('authentication');
+        $this->users = model(UserModel::class);
     }
 
     //--------------------------------------------------------------------
@@ -143,7 +144,7 @@ class AuthController extends Controller
             return redirect()->back()->withInput()->with('error', lang('Auth.registerDisabled'));
         }
 
-        $users = model(UserModel::class);
+        // $users = model(UserModel::class);
 
         // Validate basics first since some password rules rely on these fields
         $rules = config('Validation')->registrationRules ?? [
@@ -173,11 +174,11 @@ class AuthController extends Controller
 
         // Ensure default group gets assigned if set
         if (! empty($this->config->defaultUserGroup)) {
-            $users = $users->withGroup($this->config->defaultUserGroup);
+            $this->users = $this->users->withGroup($this->config->defaultUserGroup);
         }
 
-        if (! $users->save($user)) {
-            return redirect()->back()->withInput()->with('errors', $users->errors());
+        if (! $this->users->save($user)) {
+            return redirect()->back()->withInput()->with('errors', $this->users->errors());
         }
 
         if ($this->config->requireActivation !== null) {

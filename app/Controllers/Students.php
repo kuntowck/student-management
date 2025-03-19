@@ -150,7 +150,7 @@ class Students extends BaseController
 
             return view('students/profile', $data);
         }
-        return redirect()->back()->with('message', "Cannot access profile. You don't have data student.");
+        return redirect()->back()->with('error', "Cannot access profile. You don't have data student.");
     }
 
     public function create()
@@ -215,6 +215,6 @@ class Students extends BaseController
             return view('students/enrollment', $data);
         }
 
-        return redirect()->back()->with('message', "Cannot access enrollment. You don't have data student.");
+        return redirect()->back()->with('error', "Cannot access enrollment. You don't have data student.");
     }
 }

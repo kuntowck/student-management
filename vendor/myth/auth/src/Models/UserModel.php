@@ -17,32 +17,15 @@ class UserModel extends Model
     protected $returnType     = User::class;
     protected $useSoftDeletes = true;
     protected $allowedFields  = [
-        'email',
-        'username',
-        'password_hash',
-        'reset_hash',
-        'reset_at',
-        'reset_expires',
-        'activate_hash',
-        'status',
-        'status_message',
-        'active',
-        'force_pass_reset',
-        'permissions',
-        'deleted_at',
+        'email', 'username', 'full_name', 'password_hash', 'reset_hash', 'reset_at', 'reset_expires', 'activate_hash',
+        'status', 'status_message', 'active', 'force_pass_reset', 'permissions', 'deleted_at',
     ];
     protected $useTimestamps   = true;
     protected $validationRules = [
-        // 'id'            => 'required|numeric|is_natural_no_zero|is_not_unique[users.id]',
         'email'         => 'required|valid_email|is_unique[users.email,id,{id}]',
         'username'      => 'required|alpha_numeric_punct|min_length[3]|max_length[30]|is_unique[users.username,id,{id}]',
         'password_hash' => 'required',
     ];
-    // protected $validationRulesForInsert = [
-    //     'email' => 'required|valid_email|is_unique[users.email,id,{id}]',
-    //     'username'      => 'required|alpha_numeric_punct|min_length[3]|max_length[30]|is_unique[users.username,id,{id}]',
-    //     'password_hash' => 'required',
-    // ];
     protected $validationMessages = [];
     protected $skipValidation     = false;
     protected $afterInsert        = ['addToGroup'];
@@ -138,21 +121,4 @@ class UserModel extends Model
             'password' => bin2hex(random_bytes(16)),
         ]);
     }
-
-    // public function validate($data): bool
-    // {
-    //     // jika data id
-    //     if (!empty($data['id'])) {
-    //         return parent::validate($data);
-    //     }
-
-    //     if ($this->validation === null) {
-    //         $this->validation = \Config\Services::validation();
-    //     }
-
-    //     // jika operasi insert, gunakan grup validasi tanpa id
-    //     return $this->validation
-    //         ->setRules($this->validationRulesForInsert)
-    //         ->run($data);
-    // }
 }

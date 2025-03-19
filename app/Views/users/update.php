@@ -8,13 +8,9 @@
 <div class="bg-white shadow-sm rounded-lg p-8">
     <h1 class="text-2xl font-bold mb-4"><?= $title; ?></h1>
 
-    <?php if (session()->has('errors')) : ?>
+    <?php if (session()->has('error')) : ?>
         <div class="bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded-sm">
-            <ul>
-                <?php foreach (session('errors') as $error) : ?>
-                    <li><?= $error ?></li>
-                <?php endforeach ?>
-            </ul>
+            <?= session('error'); ?>
         </div>
     <?php endif ?>
 

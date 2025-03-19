@@ -92,7 +92,6 @@
             <div class="text-red-800 text-xs font-medium mt-2">
                 <?= session('errors.group'); ?>
             </div>
-
         </div>
 
         <div class="flex items-center justify-between gap-4">

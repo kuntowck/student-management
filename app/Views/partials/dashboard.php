@@ -2,8 +2,12 @@
 <?= $this->section('content'); ?>
 
 <div class="bg-white shadow-sm rounded-lg p-8">
-    <?php if (session('message')) :  ?>
+    <?php if (session('error')) :  ?>
         <div class="bg-red-100 text-red-800 text-sm font-medium me-2 px-4 py-2 rounded-sm mb-2">
+            <?= session('error') ?? ''; ?>
+        </div>
+    <?php elseif (session('message')): ?>
+        <div class="bg-green-100 text-green-800 text-sm font-medium me-2 px-4 py-2 rounded-sm mb-2">
             <?= session('message') ?? ''; ?>
         </div>
     <?php endif; ?>
