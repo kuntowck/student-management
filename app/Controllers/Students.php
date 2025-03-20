@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Entities\Student;
 use App\Libraries\DataParams;
 use App\Models\CourseModel;
 use App\Models\EnrollmentModel;
@@ -142,6 +143,8 @@ class Students extends BaseController
             ->where('users.email', $email)
             ->first();
 
+
+
         if (!empty($student)) {
             $data = [
                 'title' => 'Student Profile',
@@ -194,5 +197,68 @@ class Students extends BaseController
         $this->studentModel->delete($id);
 
         return redirect()->to('admin/students')->with('message', 'Student has been successfully deleted.');
+    }
+
+    public function getUpload()
+    {
+        $data = [
+            'title' => 'Upload File'
+        ];
+
+        return view('students/upload', $data);
+    }
+
+    public function upload()
+    {
+        $student = $this->studentModel->where('email', user()->email)->first();
+
+        $userFile = $this->request->getFile('highschool_diploma_file');
+
+        $validationRules = [
+            'highschool_diploma_file' => [
+                'label' => 'Document',
+                'rules' => 'uploaded[highschool_diploma_file]|mime_in[highschool_diploma_file,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document]|max_size[highschool_diploma_file,5120]',
+                'errors' => [
+                    'uploaded' => 'Please select a file to upload.',
+                    'mime_in' => 'File must be in PDF format.',
+                    'max_size' => 'File size must not exceed 5MB.'
+                ]
+            ]
+        ];
+
+        if (!$this->validate($validationRules)) {
+            return redirect()->back()->with('modalError', true)
+                ->with('validation_errors', $this->validator->getErrors());
+        }
+
+        $uploadPath = WRITEPATH . 'uploads/highschool_diploma_files/';
+        if (!is_dir($uploadPath)) {
+            mkdir($uploadPath, 0777, true);
+        }
+
+        $fileName = $student->student_id . "_" . date('Y-m-d_H-i-s') . "." . $userFile->getExtension();
+        $userFile->move($uploadPath, $fileName);
+
+        $data = [
+            'id' => $student->id,
+            'highschool_diploma_file' => $fileName
+        ];
+
+        if (!$this->studentModel->save($data)) {
+            return redirect()->back()->withInput()->with('errors', $this->studentModel->errors());
+        };
+
+        return redirect()->to('student/profile')->with('message', 'File has been successfully uploaded.');
+    }
+
+    public function showUpload()
+    {
+        $filePath = $this->request->getGet('file');
+
+        $path = WRITEPATH . 'uploads/highschool_diploma_files/' . basename($filePath);
+
+        return $this->response->setHeader('Content-Type', 'application/pdf')
+            ->setHeader('Content-Disposition', 'inline; filename="' . $filePath . '"')
+            ->setBody(file_get_contents($path));
     }
 }

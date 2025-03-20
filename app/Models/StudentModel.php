@@ -21,7 +21,8 @@ class StudentModel extends Model
         'current_semester',
         'academic_status',
         'entry_year',
-        'gpa'
+        'gpa',
+        'highschool_diploma_file'
     ];
 
     protected bool $allowEmptyInserts = false;

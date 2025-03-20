@@ -49,6 +49,9 @@ $routes->group('student', ['filter' => 'role:student'], function ($routes) {
     $routes->get('dashboard', 'Students::dashboard');
     $routes->get('grades', 'Students::grades');
     $routes->get('profile', 'Students::profile');
+    $routes->get('profile/view-highschool-diploma', 'Students::showUpload');
+    $routes->get('profile/upload', 'Students::getUpload');
+    $routes->post('profile/upload', 'Students::upload');
     $routes->get('enrollment', 'Enrollment::index');
     $routes->get('enrollment/create', 'Enrollment::create');
     $routes->post('enrollment/create', 'Enrollment::store');
