@@ -47,9 +47,11 @@ $routes->group('lecturer', ['filter' => 'role:lecturer'], function ($routes) {
 // Routes yang hanya bisa diakses student
 $routes->group('student', ['filter' => 'role:student'], function ($routes) {
     $routes->get('dashboard', 'Students::dashboard');
-    $routes->get('enrollment', 'Students::enrollment');
     $routes->get('grades', 'Students::grades');
     $routes->get('profile', 'Students::profile');
+    $routes->get('enrollment', 'Enrollment::index');
+    $routes->get('enrollment/create', 'Enrollment::create');
+    $routes->post('enrollment/create', 'Enrollment::store');
     $routes->get('statistic', 'Academic::statistic');
 });
 

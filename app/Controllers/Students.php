@@ -195,26 +195,4 @@ class Students extends BaseController
 
         return redirect()->to('admin/students')->with('message', 'Student has been successfully deleted.');
     }
-
-    public function enrollment()
-    {
-        $student = $this->studentModel->where('email', user()->email)->first();
-
-        if (!empty($student)) {
-            $enrollments = $this->enrollmentModel->select('enrollments.*, students.name as student_name, courses.name as course_name')
-                ->join('students', 'students.student_id = enrollments.student_id', 'left')
-                ->join('courses', 'courses.id = enrollments.course_id', 'left')
-                ->where('enrollments.student_id', $student->student_id)
-                ->findAll();
-
-            $data = [
-                'title' => 'Enrollments',
-                'enrollments' => $enrollments
-            ];
-
-            return view('students/enrollment', $data);
-        }
-
-        return redirect()->back()->with('error', "Cannot access enrollment. You don't have data student.");
-    }
 }

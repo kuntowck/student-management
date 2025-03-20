@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use CodeIgniter\Commands\Utilities\Publish;
 use CodeIgniter\Model;
 
 class EnrollmentModel extends Model
@@ -12,7 +13,7 @@ class EnrollmentModel extends Model
     protected $returnType       = \App\Entities\Enrollment::class;
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['id', 'student_id', 'course_id', 'academic_year', 'status'];
+    protected $allowedFields    = ['id', 'student_id', 'course_id', 'academic_year', 'semester', 'status'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
@@ -21,7 +22,7 @@ class EnrollmentModel extends Model
     protected array $castHandlers = [];
 
     // Dates
-    protected $useTimestamps = false;
+    protected $useTimestamps = true;
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
@@ -55,4 +56,22 @@ class EnrollmentModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    public function getEnrollmentStudentCourse($id)
+    {
+        return $this->select('enrollments.*, students.name as student_name, courses.name as course_name, courses.code as course_code, courses.credits as course_credit')
+            ->join('students', 'students.student_id = enrollments.student_id', 'left')
+            ->join('courses', 'courses.id = enrollments.course_id', 'left')
+            ->where('enrollments.student_id', $id)
+            ->findAll();
+    }
+
+    public function getLastEnrollment($id)
+    {
+        return $this->select('enrollments.*, courses.name as course_name, courses.code as course_code, courses.credits as course_credit')
+            ->join('courses', 'courses.id = enrollments.course_id')
+            ->where('student_id', $id)
+            ->orderBy('enrollments.created_at', 'DESC')
+            ->first();
+    }
 }
