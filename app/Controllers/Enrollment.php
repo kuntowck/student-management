@@ -70,22 +70,11 @@ class Enrollment extends BaseController
 
         $enrollment = $this->enrollmentModel->getLastEnrollment($student->student_id);
 
-        // $filePath = ROOTPATH . 'public/uploads/dokumen.pdf';
-        // $imagePath = ROOTPATH . 'public/uploads/gambar.jpeg';
-
         $email = service('email');
 
         $email->setFrom('kuntowck@gmail.com', 'Kunto');
         $email->setTo($student->email);
         $email->setSubject('Course Registration Confirmation');
-
-        // if (file_exists($filePath)) {
-        //     $email->attach($filePath);
-        // }
-
-        // if (file_exists($imagePath)) {
-        //     $email->attach($imagePath);
-        // }
 
         $data = [
             'student_name' => $student->name,
@@ -93,7 +82,7 @@ class Enrollment extends BaseController
             'enrollment' => $enrollment,
         ];
 
-        $message = view('email/template', $data);
+        $message = view('email/course_register', $data);
         $email->setMessage($message);
 
         if ($email->send()) {
