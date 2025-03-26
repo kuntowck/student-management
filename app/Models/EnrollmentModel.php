@@ -57,21 +57,40 @@ class EnrollmentModel extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    public function getEnrollmentStudentCourse($id)
+    public function getEnrollmentStudentCourse($studentId)
     {
         return $this->select('enrollments.*, students.name as student_name, courses.name as course_name, courses.code as course_code, courses.credits as course_credit')
             ->join('students', 'students.student_id = enrollments.student_id', 'left')
             ->join('courses', 'courses.id = enrollments.course_id', 'left')
-            ->where('enrollments.student_id', $id)
+            ->where('enrollments.student_id', $studentId)
             ->findAll();
     }
 
-    public function getLastEnrollment($id)
+    public function getLastEnrollment($studentId)
     {
         return $this->select('enrollments.*, courses.name as course_name, courses.code as course_code, courses.credits as course_credit')
             ->join('courses', 'courses.id = enrollments.course_id')
-            ->where('student_id', $id)
+            ->where('student_id', $studentId)
             ->orderBy('enrollments.created_at', 'DESC')
             ->first();
+    }
+
+    public function getEnrollmentReport($search = '')
+    {
+        $enrollment = $this->select('enrollments.*, students.name as student_name, students.study_program, courses.name as course_name, courses.code as course_code, courses.credits as course_credit')
+            ->join('students', 'students.student_id = enrollments.student_id', 'left')
+            ->join('courses', 'courses.id = enrollments.course_id', 'left');
+
+        if (!empty($search)) {
+            $enrollment->groupStart()
+                ->like('students.name', $search, 'both', null, true);
+            // ->like('students.student_id', $search, 'both', null, true);
+            if (is_numeric($search)) {
+                $enrollment->orWhere('students.student_id', $search);
+            }
+            $enrollment->groupEnd();
+        }
+
+        return $enrollment->findAll();
     }
 }

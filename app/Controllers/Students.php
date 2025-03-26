@@ -277,7 +277,6 @@ class Students extends BaseController
             ->groupBy('grade_letter')
             ->asArray()
             ->findAll();
-        d($gradeCredits);
 
         $bgColors = [
             'A' => 'rgb(54, 162, 235)',

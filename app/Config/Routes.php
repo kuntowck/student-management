@@ -2,8 +2,6 @@
 
 use App\Controllers\Courses;
 use CodeIgniter\Router\RouteCollection;
-use App\Controllers\Mahasiswa;
-use App\Controllers\Students;
 
 /**
  * @var RouteCollection $routes
@@ -32,16 +30,12 @@ $routes->group('', ['namespace' => 'App\Controllers'], function ($routes) {
 // Routes yang hanya bisa diakses admin
 $routes->group('admin', ['filter' => 'role:admin'], function ($routes) {
     $routes->get('dashboard', 'Admin::dashboard');
-    $routes->get('statistic', 'Academic::statistic');
-    $routes->get('manage-users', 'Auth::manageUsers');
-    $routes->get('manage-roles', 'Auth::manageRoles');
+    $routes->get('statistic', 'Admin::statistic');
 });
 
 // Routes yang hanya bisa diakses lecturer
 $routes->group('lecturer', ['filter' => 'role:lecturer'], function ($routes) {
     $routes->get('dashboard', 'Lecturer::dashboard');
-    $routes->get('manage-courses', 'Lecturer::courses');
-    $routes->get('manage-courses', 'Courses:index');
 });
 
 // Routes yang hanya bisa diakses student
@@ -59,9 +53,11 @@ $routes->group('student', ['filter' => 'role:student'], function ($routes) {
 });
 
 // Routes yang bisa diakses oleh lecturer dan admin
-$routes->group('', ['filter' => 'role:admin,lecturer'], function ($routes) {
-    $routes->get('reports', 'Report::index');
-    $routes->get('generate-report', 'Report::generate');
+$routes->group('reports', ['filter' => 'role:admin,lecturer'], function ($routes) {
+    $routes->get('enrollment', 'Report::enrollmentForm');
+    $routes->get('enrollment-excel', 'Report::enrollmentExcel');
+    $routes->get('student', 'Report::studentsbyprogramForm');
+    $routes->post('student-pdf', 'Report::studentsbyprogramPdf');
 });
 
 $routes->group('admin/users', ['filter' => 'role:admin'], function ($routes) {
